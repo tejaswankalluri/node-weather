@@ -1,0 +1,35 @@
+@import "_colours";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Roboto", sans-serif;
+}
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .weather-card {
+        min-width: auto;
+        width: 300px;
+        height: max-content;
+        padding: 20px;
+        background-color: rgb(238, 253, 252);
+        box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
+        line-height: 30px;
+        text-align: center;
+        .weather-text {
+            font-size: 30px;
+        }
+        .location {
+        }
+        .date {
+            color: $cement;
+        }
+    }
+}
