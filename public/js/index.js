@@ -13,45 +13,45 @@ var yyyy = today.getFullYear();
 today = dd + "/" + mm + "/" + yyyy;
 // adding date to dom
 if (weatherdate != null) {
-    weatherdate.innerHTML = `${today}`;
+  weatherdate.innerHTML = `${today}`;
 }
 
 function weatherfetch() {
-    let lat, long;
-    if (navigator.geolocation) {
-        const responce = navigator.geolocation.getCurrentPosition(showPosition);
-        function showPosition(position) {
-            lat = position.coords.latitude;
-            long = position.coords.longitude;
-            if (lat != undefined && long != undefined) {
-                const url = window.location.href;
-                console.log(url);
-                const api = `${url}api?lat=${lat}&long=${long}`;
-                fetch(api)
-                    .then((response) => response.json())
-                    .then((data) => {
-                        console.log(data);
+  let lat, long;
+  if (navigator.geolocation) {
+    const responce = navigator.geolocation.getCurrentPosition(showPosition);
+    function showPosition(position) {
+      lat = position.coords.latitude;
+      long = position.coords.longitude;
+      if (lat != undefined && long != undefined) {
+        const url = window.location.href;
+        const api = `${url}api?lat=${lat}&long=${long}`;
+        fetch(api)
+          .then((response) => response.json())
+          .then((data) => {
+            const weather = data.main.temp.toString();
+            const weatherslice = weather.slice(0, 2);
+            weathertext.innerHTML = `${weatherslice}°C`;
 
-                        const weather = data.main.temp.toString();
-                        const weatherslice = weather.slice(0, 2);
-                        weathertext.innerHTML = `${weatherslice}°C`;
+            const weatherimgid = data.weather[0].icon.toString();
+            const weatherimgurl = `http://openweathermap.org/img/wn/${weatherimgid}@2x.png`;
 
-                        const weatherimgid = data.weather[0].icon.toString();
-                        const weatherimgurl = `http://openweathermap.org/img/wn/${weatherimgid}@2x.png`;
+            weatherimg.src = `${weatherimgurl}`;
 
-                        weatherimg.src = `${weatherimgurl}`;
+            const weatherdisc = data.weather[0].description.toString();
+            weatherdis.innerHTML = `${weatherdisc}`;
 
-                        const weatherdisc = data.weather[0].description.toString();
-                        weatherdis.innerHTML = `${weatherdisc}`;
-
-                        const name = data.name.toString();
-                        locations.innerHTML = `${name}`;
-                    });
-            } else if ((lat = undefined)) {
-                weatherdis.innerHTML = `Enable Your location`;
-            }
-        }
-    } else {
-        weatherdis.innerHTML = "location is not supported in your browser";
+            const name = data.name.toString();
+            locations.innerHTML = `${name}`;
+          })
+          .catch((e) => {
+            weatherdis.innerHTML = "unable to get the location";
+          });
+      } else if ((lat = undefined)) {
+        weatherdis.innerHTML = `Enable Your location`;
+      }
     }
+  } else {
+    weatherdis.innerHTML = "location is not supported in your browser";
+  }
 }
